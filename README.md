@@ -1,8 +1,8 @@
 # PedalNetRT
 
-PedalNet-RealTime is meant to be used with the 
-SmartGuitarPedal, SmartGuitarAmp, and WaveNetVA plugins. 
-You can train a model using this repo, then convert it to a .json 
+PedalNet-RealTime trains guitar effect/amp neural network models for 
+use with the SmartGuitarPedal, SmartGuitarAmp, and WaveNetVA plugins. 
+You can train a model using this repository, then convert it to a .json 
 model that can be loaded into the VST plugin. 
 
 The following repositories are compatible with the converted .json model,
