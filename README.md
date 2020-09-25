@@ -17,6 +17,8 @@ https://github.com/damskaggep/WaveNetVA
 Re-creation of model from [Real-Time Guitar Amplifier Emulation with Deep
 Learning](https://www.mdpi.com/2076-3417/10/3/766/htm)
 
+Notice:
+This project is a modified version of the original Pedalnet. 9/25/2020
 Please see original PedalNet, without which this project would not be possible:
 https://github.com/teddykoker/pedalnet
 
