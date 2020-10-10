@@ -8,16 +8,20 @@ model that can be loaded into the VST plugin.
 The following repositories are compatible with the converted .json model,
 for use with real time guitar playing through a DAW plugin or stand alone app:
 
+SmartGuitarPedal
 https://github.com/keyth72/SmartGuitarPedal<br>
 Video Demo of SmartGuitarPedal:<br>
 https://www.youtube.com/watch?v=4zwZNa7Kwwo&t=58s
 
+SmartGuitarAmp
 https://github.com/keyth72/SmartGuitarAmp<br>
 Video Demo of SmartGuitarAmp:<br>
 https://www.youtube.com/watch?v=I9DElOaZvHo&feature=youtu.be
 
+WaveNetVa
 https://github.com/damskaggep/WaveNetVA
 
+## Info
 Re-creation of model from [Real-Time Guitar Amplifier Emulation with Deep
 Learning](https://www.mdpi.com/2076-3417/10/3/766/htm)
 
@@ -25,6 +29,7 @@ Notice:
 This project is a modified version of the original Pedalnet. 9/25/2020<br>
 Please see original PedalNet, without which this project would not be possible:
 https://github.com/teddykoker/pedalnet
+
 
 ## Data
 
