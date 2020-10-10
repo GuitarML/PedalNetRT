@@ -8,12 +8,12 @@ model that can be loaded into the VST plugin.
 The following repositories are compatible with the converted .json model,
 for use with real time guitar playing through a DAW plugin or stand alone app:
 
-https://github.com/keyth72/SmartGuitarPedal
-Video Demo of SmartGuitarPedal:
+https://github.com/keyth72/SmartGuitarPedal<br>
+Video Demo of SmartGuitarPedal:<br>
 https://www.youtube.com/watch?v=4zwZNa7Kwwo&t=58s
 
-https://github.com/keyth72/SmartGuitarAmp
-Video Demo of SmartGuitarAmp
+https://github.com/keyth72/SmartGuitarAmp<br>
+Video Demo of SmartGuitarAmp:<br>
 https://www.youtube.com/watch?v=I9DElOaZvHo&feature=youtu.be
 
 https://github.com/damskaggep/WaveNetVA
