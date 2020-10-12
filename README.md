@@ -26,9 +26,13 @@ Re-creation of model from [Real-Time Guitar Amplifier Emulation with Deep
 Learning](https://www.mdpi.com/2076-3417/10/3/766/htm)
 
 Notice:
-This project is a modified version of the original Pedalnet. 9/25/2020<br>
-Please see original PedalNet, without which this project would not be possible:
+This project is a modified version of the original Pedalnet, from which<br>
+the model, data preparation, training, and predition scripts were obtained. 9/25/2020<br>
+Please see original PedalNet, without which this project would not be possible:<br>
 https://github.com/teddykoker/pedalnet
+
+For a great explanation of how it works, check out blog post from original pedalnet:<br>
+http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/
 
 
 ## Data
