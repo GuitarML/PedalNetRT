@@ -5,18 +5,17 @@ use with the SmartGuitarPedal, SmartGuitarAmp, and WaveNetVA plugins.
 You can train a model using this repository, then convert it to a .json 
 model that can be loaded into the VST plugin. 
 
+Video walkthrough of model training and usage:
+https://youtu.be/EaIWi4TMYHA
+
 The following repositories are compatible with the converted .json model,
 for use with real time guitar playing through a DAW plugin or stand alone app:
 
 SmartGuitarPedal<br>
 https://github.com/keyth72/SmartGuitarPedal<br>
-Video Demo of SmartGuitarPedal:<br>
-https://www.youtube.com/watch?v=4zwZNa7Kwwo&t=58s
 
 SmartGuitarAmp<br>
 https://github.com/keyth72/SmartGuitarAmp<br>
-Video Demo of SmartGuitarAmp:<br>
-https://www.youtube.com/watch?v=I9DElOaZvHo&feature=youtu.be
 
 WaveNetVa<br>
 https://github.com/damskaggep/WaveNetVA
