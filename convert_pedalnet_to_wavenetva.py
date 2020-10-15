@@ -81,7 +81,7 @@ def convert(args):
                                         "name":"b_out"})
 
     # output final dictionary to json file
-    with open('models/converted_model.json', 'w') as outfile:
+    with open(args.model + '.json', 'w') as outfile:
         json.dump(data_out, outfile)
 
 if __name__ == "__main__":
