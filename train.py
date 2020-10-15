@@ -14,7 +14,7 @@ def main(args):
         # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100
     )
     trainer.fit(model)
-
+    trainer.save_checkpoint(args.model)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -31,5 +31,7 @@ if __name__ == "__main__":
     parser.add_argument("--tpu_cores", default="8")
 
     parser.add_argument("--data", default="data.pickle")
+    parser.add_argument("--model", default="models/pedalnet.ckpt")
+
     args = parser.parse_args()
     main(args)

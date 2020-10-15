@@ -95,6 +95,20 @@ Usage (after running "python test.py --model=your_model.ckpt"):
 
 ![app](https://github.com/keyth72/pedalnet/blob/master/figures/example_plot.png)
 
+## Usage (with Docker)
+
+Create a "data" folder where in.wav and out.wav will be stored
+
+Create a "models" folder where checkpoints and json models will be stored
+
+Run:
+
+```sh
+docker run -it -v <PATH TO DATA>:data -v <PATH TO MODELS>:models keyth72/PedalNetRT
+```
+
+Optionally, add `--gpus all` argument to enable NVIDIA CUDA support
+
 ## Training Info
 Differences from the original PedalNet (to make compatible with WaveNet plugin):
 1. Uses a custom Causal Padding mode not available in PyTorch.
@@ -129,6 +143,3 @@ Helpful tips on training models:
  Note: Added an experimental Google Colab notebook to train pedalnet models on TPU's.
        Upload "colab_TPU_training.ipynb" in Google Colab, and upload this pedalnet
        repository to your Google Drive to use.
-
-
-
