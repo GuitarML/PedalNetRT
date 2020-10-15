@@ -104,7 +104,7 @@ Create a "models" folder where checkpoints and json models will be stored
 Run:
 
 ```sh
-docker run -it -v <PATH TO DATA>:data -v <PATH TO MODELS>:models keyth72/PedalNetRT
+docker run -it -v <PATH TO DATA>:data -v <PATH TO MODELS>:models keyth72/pedalnetrt/pedalnetrt
 ```
 
 Optionally, add `--gpus all` argument to enable NVIDIA CUDA support
