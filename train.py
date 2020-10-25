@@ -5,13 +5,17 @@ from model import PedalNet
 
 
 def main(args):
-    model = PedalNet(args)
-    trainer = pl.Trainer(
-        max_epochs=args.max_epochs, gpus=args.gpus, row_log_interval=100
-        # The following line is for use with the Colab notebook when training on TPUs.
-        # Comment out the above line and uncomment the below line to use.
-        
-        # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100
+    if args.resume_training != "":
+        model = PedalNet.load_from_checkpoint(args.resume_training)
+        trainer = pl.Trainer(resume_from_checkpoint=args.resume_training, gpus=args.gpus, row_log_interval=100)
+    else:
+        model = PedalNet(args)
+        trainer = pl.Trainer(
+            max_epochs=args.max_epochs, gpus=args.gpus, row_log_interval=100
+            # The following line is for use with the Colab notebook when training on TPUs.
+            # Comment out the above line and uncomment the below line to use.
+            
+            # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100
     )
     trainer.fit(model)
 
@@ -31,5 +35,7 @@ if __name__ == "__main__":
     parser.add_argument("--tpu_cores", default="8")
 
     parser.add_argument("--data", default="data.pickle")
+
+    parser.add_argument("--resume_training", default="")
     args = parser.parse_args()
     main(args)
