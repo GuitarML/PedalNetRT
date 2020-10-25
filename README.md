@@ -65,8 +65,7 @@ python train.py
 
 python train.py --resume_training=path_to_ckpt_file  (to continue training from .ckpt file)
 
-python train.py --gpus=1 (default for training on one GPU, enter # of GPUs if multiple available)
-python train.py --gpus=0 (to train on CPU)
+python train.py --gpus "0,1"  # for multiple gpus
 python train.py -h  # help (see for other hyperparameters)
 
 ```
