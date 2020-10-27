@@ -102,7 +102,7 @@ Usage (after running "python test.py --model=your_model.ckpt"):
 ![app](https://github.com/keyth72/pedalnet/blob/master/figures/example_plot.png)
 
 
-Public spreadsheet for sharing analysis results:<br>
+Public spreadsheet for sharing analysis results (can request write access through google account):<br>
 https://docs.google.com/spreadsheets/d/1sIkhW3cdLkMc8bYrYspE8xzdCrJbyWXg_I0vAuJec88/edit?usp=sharing
 
 ## Training Info
