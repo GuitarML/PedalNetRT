@@ -63,9 +63,10 @@ python predict.py my_input_guitar.wav my_output.wav
 python prepare_data.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav  # or use your own!
 python train.py 
 
-python train.py --resume_training=path_to_ckpt_file   # to continue training from .ckpt file
+python train.py --resume_training=path_to_ckpt_file  # to continue training from .ckpt file
 
 python train.py --gpus "0,1"  # for multiple gpus
+python train.py --cpu=1       # for cpu training
 python train.py -h  # help (see for other hyperparameters)
 
 ```
