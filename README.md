@@ -101,6 +101,10 @@ Usage (after running "python test.py --model=your_model.ckpt"):
 
 ![app](https://github.com/keyth72/pedalnet/blob/master/figures/example_plot.png)
 
+
+Public spreadsheet for sharing analysis results:<br>
+https://docs.google.com/spreadsheets/d/1sIkhW3cdLkMc8bYrYspE8xzdCrJbyWXg_I0vAuJec88/edit?usp=sharing
+
 ## Training Info
 Differences from the original PedalNet (to make compatible with WaveNet plugin):
 1. Uses a custom Causal Padding mode not available in PyTorch.
