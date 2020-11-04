@@ -13,10 +13,10 @@ The following repositories are compatible with the converted .json model,
 for use with real time guitar playing through a DAW plugin or stand alone app:
 
 SmartGuitarPedal<br>
-https://github.com/keyth72/SmartGuitarPedal<br>
+https://github.com/GuitarML/SmartGuitarPedal<br>
 
 SmartGuitarAmp<br>
-https://github.com/keyth72/SmartGuitarAmp<br>
+https://github.com/GuitarML/SmartGuitarAmp<br>
 
 WaveNetVa<br>
 https://github.com/damskaggep/WaveNetVA
