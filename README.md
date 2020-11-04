@@ -7,7 +7,7 @@ model that can be loaded into the VST plugin. Effective for modeling
 distortion style effects or tube amplifiers. 
 
 Video walkthrough of model training and usage:
-https://youtu.be/EaIWi4TMYHA
+https://www.youtube.com/watch?v=xkrqF0D8pfQ
 
 The following repositories are compatible with the converted .json model,
 for use with real time guitar playing through a DAW plugin or stand alone app:
