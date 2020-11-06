@@ -7,14 +7,14 @@ from model import PedalNet
 def main(args):
     model = PedalNet(args)
     trainer = pl.Trainer(
-        max_epochs=args.max_epochs, gpus=args.gpus, row_log_interval=100
+        max_epochs=args.max_epochs, row_log_interval=100
         # The following line is for use with the Colab notebook when training on TPUs.
         # Comment out the above line and uncomment the below line to use.
         
         # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100
     )
     trainer.fit(model)
-    trainer.save_checkpoint(args.model)
+    trainer.save_checkpoint('models/' + args.model + '.ckpt')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     parser.add_argument("--tpu_cores", default="8")
 
     parser.add_argument("--data", default="data.pickle")
-    parser.add_argument("--model", default="models/pedalnet.ckpt")
+    parser.add_argument("--model", default="pedalnet")
 
     args = parser.parse_args()
     main(args)
