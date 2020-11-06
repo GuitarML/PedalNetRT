@@ -6,18 +6,18 @@ from model import PedalNet
 
 
 def main(args):
-    '''
-    This trains the PedalNet model to match the output data from the input data. 
-    
+    """
+    This trains the PedalNet model to match the output data from the input data.
+
     When you resume training from an existing model, you can override hparams such as
         max_epochs, batch_size, or learning_rate. Note that changing num_channels,
         dilation_depth, num_repeat, or kernel_size will change the shape of the WaveNet
         model and is not advised.
-        
-    '''
-    if args.resume_training != "":    
+
+    """
+    if args.resume_training != "":
         model = PedalNet.load_from_checkpoint(args.resume_training)
-        #Check for any hparams overridden by user and update
+        # Check for any hparams overridden by user and update
         for arg in sys.argv[1:]:
             arg2 = arg.split("=")[0].split("--")[1]
             if arg2 != "resume_training" and arg2 != "cpu" and arg2 != "tpu_cores":
@@ -29,9 +29,16 @@ def main(args):
                         model.hparams[arg2] = int(arg3)
                     print("Hparam overridden by user: ", arg2, "=", arg3, "\n")
         if args.cpu == 0:
-            trainer = pl.Trainer(resume_from_checkpoint=args.resume_training, gpus=args.gpus, row_log_interval=100, max_epochs=args.max_epochs)
+            trainer = pl.Trainer(
+                resume_from_checkpoint=args.resume_training,
+                gpus=args.gpus,
+                row_log_interval=100,
+                max_epochs=args.max_epochs,
+            )
         else:
-            trainer = pl.Trainer(resume_from_checkpoint=args.resume_training, row_log_interval=100, max_epochs=args.max_epochs)
+            trainer = pl.Trainer(
+                resume_from_checkpoint=args.resume_training, row_log_interval=100, max_epochs=args.max_epochs
+            )
         print("\nHparams for continued model training:\n")
         print(model.hparams, "\n")
     else:
@@ -40,7 +47,7 @@ def main(args):
             trainer = pl.Trainer(max_epochs=args.max_epochs, gpus=args.gpus, row_log_interval=100)
             # The following line is for use with the Colab notebook when training on TPUs.
             # Comment out the above line and uncomment the below line to use.
-            
+
             # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100
         else:
             trainer = pl.Trainer(max_epochs=args.max_epochs, row_log_interval=100)
