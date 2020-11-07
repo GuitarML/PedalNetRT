@@ -28,30 +28,21 @@ def main(args):
                     else:
                         model.hparams[arg2] = int(arg3)
                     print("Hparam overridden by user: ", arg2, "=", arg3, "\n")
-        if args.cpu == 0:
             trainer = pl.Trainer(
                 resume_from_checkpoint=args.resume_training,
                 gpus=args.gpus,
+                tpu_cores=args.tpu_cores,
                 row_log_interval=100,
                 max_epochs=args.max_epochs,
             )
-        else:
-            trainer = pl.Trainer(
-                resume_from_checkpoint=args.resume_training, row_log_interval=100, max_epochs=args.max_epochs
-            )
+
         print("\nHparams for continued model training:\n")
         print(model.hparams, "\n")
     else:
         model = PedalNet(args)
-        if args.cpu == 0:
-            trainer = pl.Trainer(max_epochs=args.max_epochs, gpus=args.gpus, row_log_interval=100)
-            # The following line is for use with the Colab notebook when training on TPUs.
-            # Comment out the above line and uncomment the below line to use.
-
-            # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100
-        else:
-            trainer = pl.Trainer(max_epochs=args.max_epochs, row_log_interval=100)
+        trainer = pl.Trainer(max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100)
     trainer.fit(model)
+    trainer.save_checkpoint("checkpoints/" + args.model + ".ckpt")
 
 
 if __name__ == "__main__":
@@ -64,12 +55,12 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--learning_rate", type=float, default=3e-3)
 
-    parser.add_argument("--max_epochs", type=int, default=1_500)
-    parser.add_argument("--gpus", default="0")
-    parser.add_argument("--tpu_cores", default="8")
+    parser.add_argument("--max_epochs", type=int, default=1500)
+    parser.add_argument("--gpus", type=str, default=None)
+    parser.add_argument("--tpu_cores", type=int, default=None)
     parser.add_argument("--cpu", type=int, default=0)
 
-    parser.add_argument("--data", default="data.pickle")
+    parser.add_argument("--model", default="pedalnet")
 
     parser.add_argument("--resume_training", default="")
     args = parser.parse_args()

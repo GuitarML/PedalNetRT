@@ -14,9 +14,9 @@ def save(name, data):
 
 @torch.no_grad()
 def test(args):
-    model = PedalNet.load_from_checkpoint(args.model)
+    model = PedalNet.load_from_checkpoint("checkpoints/" + args.model + ".ckpt")
     model.eval()
-    data = pickle.load(open(args.data, "rb"))
+    data = pickle.load(open("data/" + args.model + ".pickle", "rb"))
 
     x_test = data["x_test"]
     prev_sample = np.concatenate((np.zeros_like(x_test[0:1]), x_test[:-1]), axis=0)
@@ -29,14 +29,13 @@ def test(args):
     y_pred = np.concatenate(y_pred)
     y_pred = y_pred[:, :, -x_test.shape[2] :]
 
-    save("y_pred.wav", y_pred)
-    save("x_test.wav", data["x_test"] * data["std"] + data["mean"])
-    save("y_test.wav", data["y_test"])
+    save("tests/" + args.model + "_y_pred.wav", y_pred)
+    save("tests/" + args.model + "_x_test.wav", data["x_test"] * data["std"] + data["mean"])
+    save("tests/" + args.model + "_y_test.wav", data["y_test"])
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default="models/pedalnet.ckpt")
-    parser.add_argument("--data", default="data.pickle")
+    parser.add_argument("--model", default="pedalnet")
     args = parser.parse_args()
     test(args)

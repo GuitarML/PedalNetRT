@@ -2,3 +2,4 @@ torch==1.4.0
 pytorch_lightning==0.7.3
 numpy==1.18.1
 scipy==1.4.1
+matplotlib==3.3.2

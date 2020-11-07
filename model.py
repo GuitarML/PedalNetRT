@@ -127,7 +127,7 @@ class PedalNet(pl.LightningModule):
 
     def prepare_data(self):
         ds = lambda x, y: TensorDataset(torch.from_numpy(x), torch.from_numpy(y))
-        data = pickle.load(open(self.hparams.data, "rb"))
+        data = pickle.load(open("data/" + self.hparams.model + ".pickle", "rb"))
         self.train_ds = ds(data["x_train"], data["y_train"])
         self.valid_ds = ds(data["x_valid"], data["y_valid"])
 
