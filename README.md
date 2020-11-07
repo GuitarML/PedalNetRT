@@ -1,10 +1,10 @@
 # PedalNetRT
 
-PedalNet-RealTime trains guitar effect/amp neural network models for 
-use with the SmartGuitarPedal, SmartGuitarAmp, and WaveNetVA plugins. 
-You can train a model using this repository, then convert it to a .json 
+PedalNet-RealTime trains guitar effect/amp neural network models for
+use with the SmartGuitarPedal, SmartGuitarAmp, and WaveNetVA plugins.
+You can train a model using this repository, then convert it to a .json
 model that can be loaded into the VST plugin. Effective for modeling
-distortion style effects or tube amplifiers. 
+distortion style effects or tube amplifiers.
 
 Video walkthrough of model training and usage:
 https://www.youtube.com/watch?v=xkrqF0D8pfQ
@@ -38,7 +38,7 @@ http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/
 ## Data
 
 `data/ts9_test1_in_FP32.wav` - Playing from a Fender Telecaster, bridge pickup, max tone and volume<br>
-`data/ts9_test1_out_FP32.wav` - Split with JHS Buffer Splitter to Ibanez TS9 Tube Screamer 
+`data/ts9_test1_out_FP32.wav` - Split with JHS Buffer Splitter to Ibanez TS9 Tube Screamer
 (max drive, mid tone and volume).<br>
 `models/ts9_epoch=1362.ckpt` - Pretrained model weights
 
@@ -49,10 +49,10 @@ http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/
 Must be single channel, 44.1 kHz, FP32 wav data (not int16)
 ```bash
 # must be same data used to train
-python prepare_data.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav 
+python prepare_data.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
 
 # specify input file and desired output file
-python predict.py my_input_guitar.wav my_output.wav 
+python predict.py my_input_guitar.wav my_output.wav
 
 # if you trained you own model you can pass --model flag
 # with path to .ckpt
@@ -61,7 +61,7 @@ python predict.py my_input_guitar.wav my_output.wav
 **Train**:
 ```bash
 python prepare_data.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav  # or use your own!
-python train.py 
+python train.py
 
 python train.py --resume_training=path_to_ckpt_file  # to continue training from .ckpt file
 
@@ -91,9 +91,9 @@ Generates a file named "converted_model.json" that can be loaded into the VST pl
 
 **Analysis**:
 
-You can also use "plot_wav.py" to evaluate the trained PedalNet model. By 
-default, this will analyze the three .wav files from the test.py output. It 
-will output analysis plots and calculate the error to signal ratio. 
+You can also use "plot_wav.py" to evaluate the trained PedalNet model. By
+default, this will analyze the three .wav files from the test.py output. It
+will output analysis plots and calculate the error to signal ratio.
 
 Usage (after running "python test.py --model=your_model.ckpt"):
 
@@ -108,7 +108,7 @@ https://docs.google.com/spreadsheets/d/1sIkhW3cdLkMc8bYrYspE8xzdCrJbyWXg_I0vAuJe
 ## Training Info
 Differences from the original PedalNet (to make compatible with WaveNet plugin):
 1. Uses a custom Causal Padding mode not available in PyTorch.
-2. Uses a single conv1d layer for both sigm and tanh calculations, instead of 
+2. Uses a single conv1d layer for both sigm and tanh calculations, instead of
    two separate layers.
 3. Adds a conv1d input layer.
 4. Requires float32 .wav files for training (instead of int16).
@@ -119,29 +119,26 @@ Helpful tips on training models:
    of data for the model to "learn" from.
 2. A buffer splitter was used with pedals to obtain a pure guitar signal
    and post effect signal.
-3. Obtaining sample data from an amp can be done by splitting off the original 
+3. Obtaining sample data from an amp can be done by splitting off the original
    signal, with the post amp signal coming from a microphone (I used a SM57).
    Keep in mind that this captures the dynamic response of the mic and cabinet.
    In the original research the sound was captured directly from within the amp
    circuit to have a "pure" amp signal.
 4. Generally speaking, the more distorted the effect/amp, the more difficult it
-   is to train. Experiment with different hyperparameters for each target 
+   is to train. Experiment with different hyperparameters for each target
    hardware. I found that a model with only 5 channels was able to sufficiently
-   model some effects, and this reduces the model size and allows the plugin 
+   model some effects, and this reduces the model size and allows the plugin
    to use less processing power.
 5. When recording samples, try to maximize the volume levels without clipping.
-   The levels you train the model at will be reproduced by the plugin. Also try 
-   to make the pre effect and post effect wav samples equal in volume levels. 
-   Even though the actual amp or effect may raise the level significantly, this isn't 
+   The levels you train the model at will be reproduced by the plugin. Also try
+   to make the pre effect and post effect wav samples equal in volume levels.
+   Even though the actual amp or effect may raise the level significantly, this isn't
    necessarily desirable in the end plugin.
-6. This WaveNet model is effective at reproducing distortion/overdrive, but 
-   not reverb/delay effects (or other time-based effects). Mostly untested on 
+6. This WaveNet model is effective at reproducing distortion/overdrive, but
+   not reverb/delay effects (or other time-based effects). Mostly untested on
    compressor/limiter effects, but initial results seem promising.
-   
-   
+
+
  Note: Added an experimental Google Colab notebook to train pedalnet models on TPU's.
        Upload "colab_TPU_training.ipynb" in Google Colab, and upload this pedalnet
        repository to your Google Drive to use.
-
-
-

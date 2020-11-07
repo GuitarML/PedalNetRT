@@ -8,8 +8,9 @@ from model import PedalNet
 
 
 def save(name, data):
-    #wavfile.write(name, 44100, data.flatten().astype(np.int16))
+    # wavfile.write(name, 44100, data.flatten().astype(np.int16))
     wavfile.write(name, 44100, data.flatten().astype(np.float32))
+
 
 @torch.no_grad()
 def test(args):
