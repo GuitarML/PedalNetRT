@@ -21,6 +21,10 @@ https://github.com/GuitarML/SmartGuitarAmp<br>
 WaveNetVa<br>
 https://github.com/damskaggep/WaveNetVA
 
+
+Email your best json models to smartguitarml@gmail.com and they may be included
+in the next plugin release.
+
 ## Info
 Re-creation of model from [Real-Time Guitar Amplifier Emulation with Deep
 Learning](https://www.mdpi.com/2076-3417/10/3/766/htm)
