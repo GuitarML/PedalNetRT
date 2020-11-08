@@ -15,12 +15,12 @@ def main(args):
         model and is not advised.
 
     """
-    if args.resume_training != "":
-        model = PedalNet.load_from_checkpoint(args.resume_training)
+    if args.resume:
+        model = PedalNet.load_from_checkpoint("checkpoints/" + args.model + ".ckpt")
         # Check for any hparams overridden by user and update
         for arg in sys.argv[1:]:
             arg2 = arg.split("=")[0].split("--")[1]
-            if arg2 != "resume_training" and arg2 != "cpu" and arg2 != "tpu_cores":
+            if arg2 != "resume" and arg2 != "cpu" and arg2 != "tpu_cores":
                 arg3 = arg.split("=")[1]
                 if arg2 in model.hparams:
                     if arg2 == "learning_rate":
@@ -28,19 +28,25 @@ def main(args):
                     else:
                         model.hparams[arg2] = int(arg3)
                     print("Hparam overridden by user: ", arg2, "=", arg3, "\n")
-            trainer = pl.Trainer(
-                resume_from_checkpoint=args.resume_training,
-                gpus=args.gpus,
-                tpu_cores=args.tpu_cores,
-                row_log_interval=100,
-                max_epochs=args.max_epochs,
-            )
+
+        trainer = pl.Trainer(
+            resume_from_checkpoint="checkpoints/" + args.model + ".ckpt",
+            gpus=None if args.cpu else args.gpus,
+            tpu_cores=args.tpu_cores,
+            row_log_interval=100,
+            max_epochs=args.max_epochs,
+        )
 
         print("\nHparams for continued model training:\n")
         print(model.hparams, "\n")
     else:
         model = PedalNet(args)
-        trainer = pl.Trainer(max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100)
+        trainer = pl.Trainer(
+            max_epochs=args.max_epochs,
+            tpu_cores=args.tpu_cores,
+            gpus=None if args.cpu else args.gpus,
+            row_log_interval=100,
+        )
     trainer.fit(model)
     trainer.save_checkpoint("checkpoints/" + args.model + ".ckpt")
 
@@ -56,12 +62,11 @@ if __name__ == "__main__":
     parser.add_argument("--learning_rate", type=float, default=3e-3)
 
     parser.add_argument("--max_epochs", type=int, default=1500)
-    parser.add_argument("--gpus", type=str, default=None)
+    parser.add_argument("--gpus", type=int, default=-1)
     parser.add_argument("--tpu_cores", type=int, default=None)
-    parser.add_argument("--cpu", type=int, default=0)
+    parser.add_argument("--cpu", action="store_true")
 
     parser.add_argument("--model", default="pedalnet")
-
-    parser.add_argument("--resume_training", default="")
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     main(args)
