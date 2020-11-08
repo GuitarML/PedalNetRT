@@ -4,7 +4,7 @@ PedalNet-RealTime trains guitar effect/amp neural network models for
 use with the SmartGuitarPedal, SmartGuitarAmp, and WaveNetVA plugins.
 You can train a model using this repository, then convert it to a .json
 model that can be loaded into the VST plugin. Effective for modeling
-distortion style effects or tube amplifiers.
+distortion style effects or tube amplifiers. 
 
 Video walkthrough of model training and usage:
 https://www.youtube.com/watch?v=xkrqF0D8pfQ
