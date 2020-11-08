@@ -39,9 +39,9 @@ def convert(args):
 
     # Get hparams from model
     hparams = model.hparams
-    residual_channels = hparams["num_channels"]
-    filter_width = hparams["kernel_size"]
-    dilations = [2 ** d for d in range(hparams["dilation_depth"])] * hparams["num_repeat"]
+    residual_channels = hparams.num_channels
+    filter_width = hparams.kernel_size
+    dilations = [2 ** d for d in range(hparams.dilation_depth)] * hparams.num_repeat
 
     data_out = {
         "activation": "gated",

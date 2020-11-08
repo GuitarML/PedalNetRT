@@ -51,7 +51,6 @@ def analyze_pred_vs_actual(args):
     pred_wav = args.model + "_y_pred.wav"
     input_wav = args.model + "_x_test.wav"
     model = args.model
-    show_plots = args.show_plots
 
     # Read the input wav file
     signal3, fs3 = read_wave("tests/" + input_wav)
@@ -134,13 +133,13 @@ def analyze_pred_vs_actual(args):
     plt.xlabel("Time [sec]")
     plt.savefig("figures/" + model + "_diff_spectrogram.png", bbox_inches="tight")
 
-    if show_plots == 1:
+    if args.show:
         plt.show()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="pedalnet")
-    parser.add_argument("--show_plots", default=1)
+    parser.add_argument("--show", action="store_true")
     args = parser.parse_args()
     analyze_pred_vs_actual(args)
