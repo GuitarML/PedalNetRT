@@ -56,7 +56,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--num_channels", type=int, default=16)
+    parser.add_argument("--num_channels", type=int, default=12)
     parser.add_argument("--dilation_depth", type=int, default=10)
     parser.add_argument("--num_repeat", type=int, default=1)
     parser.add_argument("--kernel_size", type=int, default=3)
