@@ -1,1 +1,1 @@
-here are the .json models
+here are the models

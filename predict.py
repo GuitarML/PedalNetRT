@@ -14,9 +14,9 @@ def save(name, data):
 
 @torch.no_grad()
 def predict(args):
-    model = PedalNet.load_from_checkpoint(args.model)
+    model = PedalNet.load_from_checkpoint("models/" + args.model + ".ckpt")
     model.eval()
-    train_data = pickle.load(open(args.train_data, "rb"))
+    train_data = pickle.load(open("data/" + args.model + ".pickle", "rb"))
 
     mean, std = train_data["mean"], train_data["std"]
 
@@ -48,8 +48,7 @@ def predict(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default="models/pedalnet.ckpt")
-    parser.add_argument("--train_data", default="data.pickle")
+    parser.add_argument("--model", default="pedalnet")
     parser.add_argument("--batch_size", type=int, default=256)
     parser.add_argument("--sample_time", type=float, default=100e-3)
     parser.add_argument("input")

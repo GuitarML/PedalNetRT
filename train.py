@@ -16,7 +16,7 @@ def main(args):
 
     """
     if args.resume:
-        model = PedalNet.load_from_checkpoint("checkpoints/" + args.model + ".ckpt")
+        model = PedalNet.load_from_checkpoint("models/" + args.model + ".ckpt")
         # Check for any hparams overridden by user and update
         for arg in sys.argv[1:]:
             arg2 = arg.split("=")[0].split("--")[1]
@@ -30,8 +30,8 @@ def main(args):
                     print("Hparam overridden by user: ", arg2, "=", arg3, "\n")
 
         trainer = pl.Trainer(
-            resume_from_checkpoint="checkpoints/" + args.model + ".ckpt",
-            gpus=None if args.cpu else args.gpus,
+            resume_from_checkpoint="models/" + args.model + ".ckpt",
+            gpus=None if args.cpu or args.tpu_cores else args.gpus,
             tpu_cores=args.tpu_cores,
             row_log_interval=100,
             max_epochs=args.max_epochs,
@@ -44,11 +44,11 @@ def main(args):
         trainer = pl.Trainer(
             max_epochs=args.max_epochs,
             tpu_cores=args.tpu_cores,
-            gpus=None if args.cpu else args.gpus,
+            gpus=None if args.cpu or args.tpu_cores else args.gpus,
             row_log_interval=100,
         )
     trainer.fit(model)
-    trainer.save_checkpoint("checkpoints/" + args.model + ".ckpt")
+    trainer.save_checkpoint("models/" + args.model + ".ckpt")
 
 
 if __name__ == "__main__":

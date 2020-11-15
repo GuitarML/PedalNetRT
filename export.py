@@ -33,7 +33,7 @@ def convert(args):
         1,
         0,
     )  # Pytorch uses (out_channels, in_channels, kernel_size), TensorFlow uses (kernel_size, in_channels, out_channels)
-    model = PedalNet.load_from_checkpoint(checkpoint_path="checkpoints/" + args.model + ".ckpt")
+    model = PedalNet.load_from_checkpoint(checkpoint_path="models/" + args.model + ".ckpt")
 
     sd = model.state_dict()
 
