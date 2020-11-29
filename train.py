@@ -16,7 +16,7 @@ def main(args):
 
     """
     if args.resume:
-        model = PedalNet.load_from_checkpoint("models/" + args.model + ".ckpt")
+        model = PedalNet.load_from_checkpoint("models/" + args.model + "/model.ckpt")
         # Check for any hparams overridden by user and update
         for arg in sys.argv[1:]:
             arg2 = arg.split("=")[0].split("--")[1]
@@ -30,7 +30,7 @@ def main(args):
                     print("Hparam overridden by user: ", arg2, "=", arg3, "\n")
 
         trainer = pl.Trainer(
-            resume_from_checkpoint="models/" + args.model + ".ckpt",
+            resume_from_checkpoint="models/" + args.model + "/model.ckpt",
             gpus=None if args.cpu or args.tpu_cores else args.gpus,
             tpu_cores=args.tpu_cores,
             row_log_interval=100,
@@ -48,7 +48,7 @@ def main(args):
             row_log_interval=100,
         )
     trainer.fit(model)
-    trainer.save_checkpoint("models/" + args.model + ".ckpt")
+    trainer.save_checkpoint("models/" + args.model + "/model.ckpt")
 
 
 if __name__ == "__main__":
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     parser.add_argument("--tpu_cores", type=int, default=None)
     parser.add_argument("--cpu", action="store_true")
 
-    parser.add_argument("--model", default="pedalnet")
+    parser.add_argument("--model", type=str, default="pedalnet")
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     main(args)

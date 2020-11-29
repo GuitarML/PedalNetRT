@@ -10,21 +10,21 @@ def convert(args):
     """
     Converts a *.ckpt model from PedalNet into a .json format used in WaveNetVA.
 
-              Current changes to the original PedalNet model to match WaveNetVA include:
-                1. Added CausalConv1d() to use causal padding
-                2. Added an input layer, which is a Conv1d(in_channls=1, out_channels=num_channels, kernel_size=1)
-                3. Instead of two conv_stacks for tanh and sigm, used a single hidden layer with input_channels=16,
-                   output_channels=32, then split the matrix for tanh and sigm calculation.
+    Current changes to the original PedalNet model to match WaveNetVA include:
+      1. Added CausalConv1d() to use causal padding
+      2. Added an input layer, which is a Conv1d(in_channls=1, out_channels=num_channels, kernel_size=1)
+      3. Instead of two conv_stacks for tanh and sigm, used a single hidden layer with input_channels=16,
+         output_channels=32, then split the matrix for tanh and sigm calculation.
 
-                Note: The original PedalNet model was intended for use on PCM Int16 format wave files. The WaveNetVA is
-                    intended as a plugin, which processes float32 audio data. The PedalNet model must be trained on wave files
-                    saved as Float32 data, which has sample data in the range -1 to 1.
+      Note: The original PedalNet model was intended for use on PCM Int16 format wave files. The WaveNetVA is
+            intended as a plugin, which processes float32 audio data. The PedalNet model must be trained on wave files
+            saved as Float32 data, which has sample data in the range -1 to 1.
 
-                Note: The WaveNetVA plugin doesn't perform the standardization step as in predict.py. With the standardization step
-                       omitted, the signals match between the plugin with converted model, and the predict.py output.
+      Note: The WaveNetVA plugin doesn't perform the standardization step as in predict.py. With the standardization step
+            omitted, the signals match between the plugin with converted model, and the predict.py output.
 
-              The model parameters used for conversion testing match the Wavenetva1 model (limited testing using other parameters):
-              --num_channels=16, --dilation_depth=10, --num_repeat=1, --kernel_size=3
+      The model parameters used for conversion testing match the Wavenetva1 model (limited testing using other parameters):
+            --num_channels=16, --dilation_depth=10, --num_repeat=1, --kernel_size=3
     """
 
     # Permute tensors to match Tensorflow format with .permute(a,b,c):
@@ -33,7 +33,7 @@ def convert(args):
         1,
         0,
     )  # Pytorch uses (out_channels, in_channels, kernel_size), TensorFlow uses (kernel_size, in_channels, out_channels)
-    model = PedalNet.load_from_checkpoint(checkpoint_path="models/" + args.model + ".ckpt")
+    model = PedalNet.load_from_checkpoint(checkpoint_path="models/" + args.model + "/model.ckpt")
 
     sd = model.state_dict()
 
@@ -134,12 +134,13 @@ def convert(args):
             )
 
     # output final dictionary to json file
-    with open("models/" + args.model + ".json", "w") as outfile:
+    with open("models/" + args.model + "/model.json", "w") as outfile:
         json.dump(data_out, outfile)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="pedalnet")
+    parser.add_argument("--format", default="json")
     args = parser.parse_args()
     convert(args)

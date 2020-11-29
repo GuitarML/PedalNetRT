@@ -14,9 +14,9 @@ def save(name, data):
 
 @torch.no_grad()
 def test(args):
-    model = PedalNet.load_from_checkpoint("models/" + args.model + ".ckpt")
+    model = PedalNet.load_from_checkpoint("models/" + args.model + "/model.ckpt")
     model.eval()
-    data = pickle.load(open("data/" + args.model + ".pickle", "rb"))
+    data = pickle.load(open("models/" + args.model + "/data.pickle", "rb"))
 
     x_test = data["x_test"]
     prev_sample = np.concatenate((np.zeros_like(x_test[0:1]), x_test[:-1]), axis=0)
@@ -29,9 +29,9 @@ def test(args):
     y_pred = np.concatenate(y_pred)
     y_pred = y_pred[:, :, -x_test.shape[2] :]
 
-    save("tests/" + args.model + "_y_pred.wav", y_pred)
-    save("tests/" + args.model + "_x_test.wav", data["x_test"] * data["std"] + data["mean"])
-    save("tests/" + args.model + "_y_test.wav", data["y_test"])
+    save("models/" + args.model + "/y_pred.wav", y_pred)
+    save("models/" + args.model + "/x_test.wav", data["x_test"] * data["std"] + data["mean"])
+    save("models/" + args.model + "/y_test.wav", data["y_test"])
 
 
 if __name__ == "__main__":

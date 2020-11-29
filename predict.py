@@ -14,9 +14,9 @@ def save(name, data):
 
 @torch.no_grad()
 def predict(args):
-    model = PedalNet.load_from_checkpoint("models/" + args.model + ".ckpt")
+    model = PedalNet.load_from_checkpoint("models/" + args.model + "/model.ckpt")
     model.eval()
-    train_data = pickle.load(open("data/" + args.model + ".pickle", "rb"))
+    train_data = pickle.load(open("models/" + args.model + "/data.pickle", "rb"))
 
     mean, std = train_data["mean"], train_data["std"]
 

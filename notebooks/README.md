@@ -1,1 +1,1 @@
-notebooks are stored here
+Here are Jupyter notebooks you can use
