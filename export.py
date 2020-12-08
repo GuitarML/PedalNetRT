@@ -33,7 +33,7 @@ def convert(args):
         1,
         0,
     )  # Pytorch uses (out_channels, in_channels, kernel_size), TensorFlow uses (kernel_size, in_channels, out_channels)
-    model = PedalNet.load_from_checkpoint(checkpoint_path="models/" + args.model + "/model.ckpt")
+    model = PedalNet.load_from_checkpoint(checkpoint_path="models/" + args.model + "/" + args.model + ".ckpt")
 
     sd = model.state_dict()
 
@@ -44,6 +44,7 @@ def convert(args):
     dilations = [2 ** d for d in range(hparams.dilation_depth)] * hparams.num_repeat
 
     data_out = {
+        "name": args.model,
         "activation": "gated",
         "output_channels": 1,
         "input_channels": 1,
@@ -134,7 +135,7 @@ def convert(args):
             )
 
     # output final dictionary to json file
-    with open("models/" + args.model + "/model.json", "w") as outfile:
+    with open("models/" + args.model + "/" + args.model + ".json", "w") as outfile:
         json.dump(data_out, outfile)
 
 

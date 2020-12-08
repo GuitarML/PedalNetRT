@@ -9,12 +9,12 @@ from model import PedalNet
 
 
 def save(name, data):
-    wavfile.write(name, 44100, data.flatten().astype(np.int16))
+    wavfile.write(name, 44100, data.flatten().astype(np.float32))
 
 
 @torch.no_grad()
 def predict(args):
-    model = PedalNet.load_from_checkpoint("models/" + args.model + "/model.ckpt")
+    model = PedalNet.load_from_checkpoint("models/" + args.model + "/" + args.model + ".ckpt")
     model.eval()
     train_data = pickle.load(open("models/" + args.model + "/data.pickle", "rb"))
 

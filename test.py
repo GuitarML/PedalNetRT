@@ -14,7 +14,7 @@ def save(name, data):
 
 @torch.no_grad()
 def test(args):
-    model = PedalNet.load_from_checkpoint("models/" + args.model + "/model.ckpt")
+    model = PedalNet.load_from_checkpoint("models/" + args.model + "/" + args.model + ".ckpt")
     model.eval()
     data = pickle.load(open("models/" + args.model + "/data.pickle", "rb"))
 
