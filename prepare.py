@@ -2,10 +2,10 @@ import argparse
 import pickle
 from scipy.io import wavfile
 import numpy as np
-from pathlib import Path
+import os
 
 
-def main(args):
+def prepare(args):
     in_rate, in_data = wavfile.read(args.in_file)
     out_rate, out_data = wavfile.read(args.out_file)
     assert in_rate == out_rate, "in_file and out_file must have same sample rate"
@@ -27,16 +27,17 @@ def main(args):
     for key in "x_train", "x_valid", "x_test":
         d[key] = (d[key] - d["mean"]) / d["std"]
 
-    Path("models/" + args.model).mkdir(exist_ok=True)
-    pickle.dump(d, open("models/" + args.model + "/data.pickle", "wb"))
+    if not os.path.exists("models/" + args.model):
+        os.makedirs("models/" + args.model)
 
+    pickle.dump(d, open("models/" + args.model + "/data.pickle", "wb"))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("in_file")
-    parser.add_argument("out_file")
+    parser.add_argument("in_file", default="data/ts9_in.wav")
+    parser.add_argument("out_file", default="data/ts9_out.wav")
 
     parser.add_argument("--model", type=str, default="pedalnet")
     parser.add_argument("--sample_time", type=float, default=100e-3)
     args = parser.parse_args()
-    main(args)
+    prepare(args)
