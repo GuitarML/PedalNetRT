@@ -32,25 +32,24 @@ def main(args):
             trainer = pl.Trainer(
                 resume_from_checkpoint=args.resume_training,
                 gpus=args.gpus,
-                row_log_interval=100,
                 max_epochs=args.max_epochs,
             )
         else:
             trainer = pl.Trainer(
-                resume_from_checkpoint=args.resume_training, row_log_interval=100, max_epochs=args.max_epochs
+                resume_from_checkpoint=args.resume_training, max_epochs=args.max_epochs
             )
         print("\nHparams for continued model training:\n")
         print(model.hparams, "\n")
     else:
         model = PedalNet(args)
         if args.cpu == 0:
-            trainer = pl.Trainer(max_epochs=args.max_epochs, gpus=args.gpus, row_log_interval=100)
+            trainer = pl.Trainer(max_epochs=args.max_epochs, gpus=args.gpus)
             # The following line is for use with the Colab notebook when training on TPUs.
             # Comment out the above line and uncomment the below line to use.
 
-            # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, row_log_interval=100
+            # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus
         else:
-            trainer = pl.Trainer(max_epochs=args.max_epochs, row_log_interval=100)
+            trainer = pl.Trainer(max_epochs=args.max_epochs)
     trainer.fit(model)
 
 
