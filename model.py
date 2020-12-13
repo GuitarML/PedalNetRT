@@ -5,6 +5,7 @@ from torch.utils.data import TensorDataset, DataLoader
 
 import pytorch_lightning as pl
 import pickle
+import os
 
 
 class CausalConv1d(torch.nn.Conv1d):
@@ -118,7 +119,7 @@ class PedalNet(pl.LightningModule):
 
     def prepare_data(self):
         ds = lambda x, y: TensorDataset(torch.from_numpy(x), torch.from_numpy(y))
-        data = pickle.load(open("models/" + self.hparams.model + "/data.pickle", "rb"))
+        data = pickle.load(open(os.path.dirname(self.hparams.model) + "/data.pickle", "rb"))
         self.train_ds = ds(data["x_train"], data["y_train"])
         self.valid_ds = ds(data["x_valid"], data["y_valid"])
 

@@ -20,7 +20,7 @@ def main(args):
     prepare(args)
     model = PedalNet(args)
     trainer = pl.Trainer(
-        resume_from_checkpoint="models/" + args.model + "/" + args.model + ".ckpt" if args.resume else None,
+        resume_from_checkpoint=args.model if args.resume else None,
         gpus=None if args.cpu or args.tpu_cores else args.gpus,
         tpu_cores=args.tpu_cores,
         log_every_n_steps=100,
@@ -28,16 +28,16 @@ def main(args):
     )
 
     trainer.fit(model)
-    trainer.save_checkpoint("models/" + args.model + "/" + args.model + ".ckpt")
+    trainer.save_checkpoint(args.model)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("in_file", nargs='?', default="data/ts9_in.wav")
-    parser.add_argument("out_file", nargs='?', default="data/ts9_out.wav")
+    parser.add_argument("in_file", nargs="?", default="data/in.wav")
+    parser.add_argument("out_file", nargs="?", default="data/out.wav")
     parser.add_argument("--sample_time", type=float, default=100e-3)
 
-    parser.add_argument("--num_channels", type=int, default=16)
+    parser.add_argument("--num_channels", type=int, default=12)
     parser.add_argument("--dilation_depth", type=int, default=10)
     parser.add_argument("--num_repeat", type=int, default=1)
     parser.add_argument("--kernel_size", type=int, default=3)
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     parser.add_argument("--tpu_cores", type=int, default=None)
     parser.add_argument("--cpu", action="store_true")
 
-    parser.add_argument("--model", type=str, default="pedalnet")
+    parser.add_argument("--model", type=str, default="models/pedalnet/pedalnet.ckpt")
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     main(args)

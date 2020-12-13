@@ -8,6 +8,7 @@ from scipy import signal
 import argparse
 
 import struct
+import os
 
 
 def error_to_signal(y, y_pred, use_filter=1):
@@ -47,16 +48,17 @@ def analyze_pred_vs_actual(args):
     4. Plots the spectrogram of (pred_signal - actual signal)
          The idea here is to show problem frequencies from the model training
     """
-    output_wav = args.model + "/y_test.wav"
-    pred_wav = args.model + "/y_pred.wav"
-    input_wav = args.model + "/x_test.wav"
-    model = args.model
+
+    model = os.path.dirname(args.model)
+    output_wav = model + "/y_test.wav"
+    pred_wav = model + "/y_pred.wav"
+    input_wav = model + "/x_test.wav"
 
     # Read the input wav file
-    signal3, fs3 = read_wave("models/" + input_wav)
+    signal3, fs3 = read_wave(input_wav)
 
     # Read the output wav file
-    signal1, fs = read_wave("models/" + output_wav)
+    signal1, fs = read_wave(output_wav)
 
     Time = np.linspace(0, len(signal1) / fs, num=len(signal1))
     fig, (ax3, ax1, ax2) = plt.subplots(3, sharex=True, figsize=(13, 8))
@@ -64,7 +66,7 @@ def analyze_pred_vs_actual(args):
     ax1.plot(Time, signal1, label=output_wav, color="red")
 
     # Read the predicted wav file
-    signal2, fs2 = read_wave("models/" + pred_wav)
+    signal2, fs2 = read_wave(pred_wav)
 
     Time2 = np.linspace(0, len(signal2) / fs2, num=len(signal2))
     ax1.plot(Time2, signal2, label=pred_wav, color="green")
@@ -103,7 +105,7 @@ def analyze_pred_vs_actual(args):
     ax3.grid("on")
 
     # Save the plot
-    plt.savefig("models/" + model + "/signal_comparison_e2s_" + str(round(e2s, 4)) + ".png", bbox_inches="tight")
+    plt.savefig(model + "/signal_comparison_e2s_" + str(round(e2s, 4)) + ".png", bbox_inches="tight")
 
     # Create a zoomed in plot of 0.01 seconds centered at the max input signal value
     sig_temp = signal1.tolist()
@@ -115,7 +117,7 @@ def analyze_pred_vs_actual(args):
             max(signal2),
         ]
     )
-    plt.savefig("models/" + model + "/detail_signal_comparison_e2s_" + str(round(e2s, 4)) + ".png", bbox_inches="tight")
+    plt.savefig(model + "/detail_signal_comparison_e2s_" + str(round(e2s, 4)) + ".png", bbox_inches="tight")
 
     # Reset the axis
     plt.axis([0, Time3[-1], min(signal2), max(signal2)])
@@ -129,7 +131,7 @@ def analyze_pred_vs_actual(args):
     plt.title("Diff Spectrogram")
     plt.ylabel("Frequency [Hz]")
     plt.xlabel("Time [sec]")
-    plt.savefig("models/" + model + "/diff_spectrogram.png", bbox_inches="tight")
+    plt.savefig(model + "/diff_spectrogram.png", bbox_inches="tight")
 
     if args.show:
         plt.show()
@@ -137,7 +139,7 @@ def analyze_pred_vs_actual(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default="pedalnet")
+    parser.add_argument("--model", default="models/pedalnet/pedalnet.ckpt")
     parser.add_argument("--show", action="store_true")
     args = parser.parse_args()
     analyze_pred_vs_actual(args)

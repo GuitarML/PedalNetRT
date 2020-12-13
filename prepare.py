@@ -27,17 +27,17 @@ def prepare(args):
     for key in "x_train", "x_valid", "x_test":
         d[key] = (d[key] - d["mean"]) / d["std"]
 
-    if not os.path.exists("models/" + args.model):
-        os.makedirs("models/" + args.model)
+    if not os.path.exists(os.path.dirname(args.model)):
+        os.makedirs(os.path.dirname(args.model))
 
-    pickle.dump(d, open("models/" + args.model + "/data.pickle", "wb"))
+    pickle.dump(d, open(os.path.dirname(args.model) + "/data.pickle", "wb"))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("in_file")
     parser.add_argument("out_file")
 
-    parser.add_argument("--model", type=str, default="pedalnet")
+    parser.add_argument("--model", type=str, default="models/pedalnet/pedalnet.ckpt")
     parser.add_argument("--sample_time", type=float, default=100e-3)
     args = parser.parse_args()
     prepare(args)
