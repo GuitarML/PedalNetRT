@@ -34,8 +34,8 @@ def prepare(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("in_file", default="data/ts9_in.wav")
-    parser.add_argument("out_file", default="data/ts9_out.wav")
+    parser.add_argument("in_file")
+    parser.add_argument("out_file")
 
     parser.add_argument("--model", type=str, default="pedalnet")
     parser.add_argument("--sample_time", type=float, default=100e-3)

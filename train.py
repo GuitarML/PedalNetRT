@@ -3,6 +3,7 @@ import argparse
 import sys
 
 from model import PedalNet
+from prepare import prepare
 
 
 def main(args):
@@ -16,12 +17,13 @@ def main(args):
 
     """
 
+    prepare(args)
     model = PedalNet(args)
     trainer = pl.Trainer(
-        resume_from_checkpoint="models/" + args.model + "/" + args.model + ".ckpt" if args.resume else None
+        resume_from_checkpoint="models/" + args.model + "/" + args.model + ".ckpt" if args.resume else None,
         gpus=None if args.cpu or args.tpu_cores else args.gpus,
         tpu_cores=args.tpu_cores,
-        row_log_interval=100,
+        log_every_n_steps=100,
         max_epochs=args.max_epochs,
     )
 
@@ -31,8 +33,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("in_file", default="data/ts9_in.wav")
-    parser.add_argument("out_file", default="data/ts9_out.wav")
+    parser.add_argument("in_file", nargs='?', default="data/ts9_in.wav")
+    parser.add_argument("out_file", nargs='?', default="data/ts9_out.wav")
     parser.add_argument("--sample_time", type=float, default=100e-3)
 
     parser.add_argument("--num_channels", type=int, default=16)
