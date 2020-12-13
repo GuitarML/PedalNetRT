@@ -32,6 +32,7 @@ def prepare(args):
 
     pickle.dump(d, open(os.path.dirname(args.model) + "/data.pickle", "wb"))
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("in_file")

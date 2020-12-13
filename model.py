@@ -110,10 +110,10 @@ class PedalNet(pl.LightningModule):
     def __init__(self, hparams):
         super(PedalNet, self).__init__()
         self.wavenet = WaveNet(
-            num_channels=hparams.num_channels,
-            dilation_depth=hparams.dilation_depth,
-            num_repeat=hparams.num_repeat,
-            kernel_size=hparams.kernel_size,
+            num_channels=hparams["num_channels"],
+            dilation_depth=hparams["dilation_depth"],
+            num_repeat=hparams["num_repeat"],
+            kernel_size=hparams["kernel_size"],
         )
         self.hparams = hparams
 
