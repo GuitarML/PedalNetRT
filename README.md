@@ -88,13 +88,18 @@ python train.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
 # specify input file and desired output file
 python predict.py my_input_guitar.wav my_output.wav
 
-# if you trained you own model you can pass --model flag
+# if you trained your own model you can pass --model flag
 # with path to .ckpt
+# For example:
+--model=models/your_model_name/your_model_name.ckpt
 ```
 
 **Train**:
 ```bash
 python train.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
+
+# When training your own model add this flag:
+--model=models/your_model_name/your_model_name.ckpt
 
 python train.py --resume  # to resume training
 
@@ -106,7 +111,7 @@ python train.py -h # help (see for other hyperparameters)
 **Test**:
 ```bash
 python test.py # test pretrained model
-python test.py --model your_trained_model.ckpt  # test trained model
+python test.py --model=your_trained_model.ckpt  # test trained model
 ```
 Creates files `y_test.wav`, `y_pred.wav`, and `x_test.wav`, for the ground truth
 output, predicted output, and input signal respectively.
