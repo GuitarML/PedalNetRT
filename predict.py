@@ -4,19 +4,20 @@ from tqdm import tqdm
 from scipy.io import wavfile
 import argparse
 import numpy as np
+import os
 
 from model import PedalNet
 
 
 def save(name, data):
-    wavfile.write(name, 44100, data.flatten().astype(np.int16))
+    wavfile.write(name, 44100, data.flatten().astype(np.float32))
 
 
 @torch.no_grad()
 def predict(args):
     model = PedalNet.load_from_checkpoint(args.model)
     model.eval()
-    train_data = pickle.load(open(args.train_data, "rb"))
+    train_data = pickle.load(open(os.path.dirname(args.model) + "/data.pickle", "rb"))
 
     mean, std = train_data["mean"], train_data["std"]
 
@@ -48,8 +49,7 @@ def predict(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default="models/pedalnet.ckpt")
-    parser.add_argument("--train_data", default="data.pickle")
+    parser.add_argument("--model", default="models/pedalnet/pedalnet.ckpt")
     parser.add_argument("--batch_size", type=int, default=256)
     parser.add_argument("--sample_time", type=float, default=100e-3)
     parser.add_argument("input")

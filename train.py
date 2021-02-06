@@ -3,6 +3,7 @@ import argparse
 import sys
 
 from model import PedalNet
+from prepare import prepare
 
 
 def main(args):
@@ -15,47 +16,27 @@ def main(args):
         model and is not advised.
 
     """
-    if args.resume_training != "":
-        model = PedalNet.load_from_checkpoint(args.resume_training)
-        # Check for any hparams overridden by user and update
-        for arg in sys.argv[1:]:
-            arg2 = arg.split("=")[0].split("--")[1]
-            if arg2 != "resume_training" and arg2 != "cpu" and arg2 != "tpu_cores":
-                arg3 = arg.split("=")[1]
-                if arg2 in model.hparams:
-                    if arg2 == "learning_rate":
-                        model.hparams[arg2] = float(arg3)
-                    else:
-                        model.hparams[arg2] = int(arg3)
-                    print("Hparam overridden by user: ", arg2, "=", arg3, "\n")
-        if args.cpu == 0:
-            trainer = pl.Trainer(
-                resume_from_checkpoint=args.resume_training,
-                gpus=args.gpus,
-                log_every_n_steps=100,
-                max_epochs=args.max_epochs,
-            )
-        else:
-            trainer = pl.Trainer(
-                resume_from_checkpoint=args.resume_training, log_every_n_steps=100, max_epochs=args.max_epochs
-            )
-        print("\nHparams for continued model training:\n")
-        print(model.hparams, "\n")
-    else:
-        model = PedalNet(args)
-        if args.cpu == 0:
-            trainer = pl.Trainer(max_epochs=args.max_epochs, gpus=args.gpus, log_every_n_steps=100)
-            # The following line is for use with the Colab notebook when training on TPUs.
-            # Comment out the above line and uncomment the below line to use.
 
-            # max_epochs=args.max_epochs, tpu_cores=args.tpu_cores, gpus=args.gpus, log_every_n_steps=100
-        else:
-            trainer = pl.Trainer(max_epochs=args.max_epochs, log_every_n_steps=100)
+    prepare(args)
+    model = PedalNet(vars(args))
+    trainer = pl.Trainer(
+        resume_from_checkpoint=args.model if args.resume else None,
+        gpus=None if args.cpu or args.tpu_cores else args.gpus,
+        tpu_cores=args.tpu_cores,
+        log_every_n_steps=100,
+        max_epochs=args.max_epochs,
+    )
+
     trainer.fit(model)
+    trainer.save_checkpoint(args.model)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("in_file", nargs="?", default="data/in.wav")
+    parser.add_argument("out_file", nargs="?", default="data/out.wav")
+    parser.add_argument("--sample_time", type=float, default=100e-3)
+
     parser.add_argument("--num_channels", type=int, default=12)
     parser.add_argument("--dilation_depth", type=int, default=10)
     parser.add_argument("--num_repeat", type=int, default=1)
@@ -64,13 +45,12 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--learning_rate", type=float, default=3e-3)
 
-    parser.add_argument("--max_epochs", type=int, default=1_500)
-    parser.add_argument("--gpus", default="0")
-    parser.add_argument("--tpu_cores", default="8")
-    parser.add_argument("--cpu", type=int, default=0)
+    parser.add_argument("--max_epochs", type=int, default=1500)
+    parser.add_argument("--gpus", type=int, default=-1)
+    parser.add_argument("--tpu_cores", type=int, default=None)
+    parser.add_argument("--cpu", action="store_true")
 
-    parser.add_argument("--data", default="data.pickle")
-
-    parser.add_argument("--resume_training", default="")
+    parser.add_argument("--model", type=str, default="models/pedalnet/pedalnet.ckpt")
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     main(args)

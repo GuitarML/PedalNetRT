@@ -39,21 +39,51 @@ For a great explanation of how it works, check out blog post from original pedal
 http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/
 
 
+## Setup
+
+> Jupyter Notebooks for Google Colab are available in [notebooks](notebooks)
+
+1. Install [Python 3](https://www.python.org/downloads/) with pip package manager
+2. Install [git](https://git-scm.com/downloads)
+3. Create and enter virtual environment
+   ```sh
+   python -m venv .
+   ```
+
+   ```sh
+   . bin/activate
+   ```
+4. Clone the repository
+   ```sh
+   git clone https://github.com/GuitarML/PedalNetRT.git src/
+   ```
+5. Enter the directory and install the dependencies using `pip` package manager
+   ```sh
+   cd src
+   ```
+
+   ```sh
+   python -m pip install -r requirements.txt
+   ```
+
+   (Optional development dependencies)
+
+   ```sh
+   python -m pip install -r requirements-dev.txt
+   ```
+
 ## Data
 
 `data/ts9_test1_in_FP32.wav` - Playing from a Fender Telecaster, bridge pickup, max tone and volume<br>
 `data/ts9_test1_out_FP32.wav` - Split with JHS Buffer Splitter to Ibanez TS9 Tube Screamer
 (max drive, mid tone and volume).<br>
-`models/ts9_epoch=1362.ckpt` - Pretrained model weights
+`models/pedalnet/pedalnet.ckpt` - Pretrained model weights
 
-
-## Usage
 
 **Run effect on .wav file**:
 Must be single channel, 44.1 kHz, FP32 wav data (not int16)
 ```bash
-# must be same data used to train
-python prepare_data.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
+python train.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
 
 # specify input file and desired output file
 python predict.py my_input_guitar.wav my_output.wav
@@ -64,21 +94,19 @@ python predict.py my_input_guitar.wav my_output.wav
 
 **Train**:
 ```bash
-python prepare_data.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav  # or use your own!
-python train.py
+python train.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
 
-python train.py --resume_training=path_to_ckpt_file  # to continue training from .ckpt file
+python train.py --resume  # to resume training
 
 python train.py --gpus "0,1"  # for multiple gpus
-python train.py --cpu=1       # for cpu training
-python train.py -h  # help (see for other hyperparameters)
-
+python train.py --cpu # for cpu training
+python train.py -h # help (see for other hyperparameters)
 ```
 
 **Test**:
 ```bash
 python test.py # test pretrained model
-python test.py --model lightning_logs/version_{X}/epoch={EPOCH}.ckpt  # test trained model
+python test.py --model your_trained_model.ckpt  # test trained model
 ```
 Creates files `y_test.wav`, `y_pred.wav`, and `x_test.wav`, for the ground truth
 output, predicted output, and input signal respectively.
@@ -89,22 +117,21 @@ output, predicted output, and input signal respectively.
 The .ckpt model must be converted to a .json model to run in the plugin.
 Usage:
 
-	python convert_pedalnet_to_wavnetva.py --model=your_trained_model.ckpt
+	python export.py --model=your_trained_model.ckpt
 
 Generates a file named "converted_model.json" that can be loaded into the VST plugin.
 
 **Analysis**:
 
-You can also use "plot_wav.py" to evaluate the trained PedalNet model. By
+You can also use "plot.py" to evaluate the trained PedalNet model. By
 default, this will analyze the three .wav files from the test.py output. It
 will output analysis plots and calculate the error to signal ratio.
 
-Usage (after running "python test.py --model=your_model.ckpt"):
+Usage (after running "python test.py --model=your_trained_model.ckpt"):
 
-	python plot_wav.py
+	python plot.py
 
-![app](https://github.com/keyth72/pedalnet/blob/master/figures/example_plot.png)
-
+![plot.py output](figures/example_plot.png)
 
 Public spreadsheet for sharing analysis results (can request write access through google account):<br>
 https://docs.google.com/spreadsheets/d/1sIkhW3cdLkMc8bYrYspE8xzdCrJbyWXg_I0vAuJec88/edit?usp=sharing
@@ -141,8 +168,3 @@ Helpful tips on training models:
 6. This WaveNet model is effective at reproducing distortion/overdrive, but
    not reverb/delay effects (or other time-based effects). Mostly untested on
    compressor/limiter effects, but initial results seem promising.
-
-
- Note: Added an experimental Google Colab notebook to train pedalnet models on TPU's.
-       Upload "colab_TPU_training.ipynb" in Google Colab, and upload this pedalnet
-       repository to your Google Drive to use.

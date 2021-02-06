@@ -1,8 +1,6 @@
-lightning_logs
-data.pickle
-*.wav
-!data/*.wav
-
+lightning_logs/
+*.ckpt
+*.pickle
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

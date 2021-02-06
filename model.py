@@ -5,7 +5,7 @@ from torch.utils.data import TensorDataset, DataLoader
 
 import pytorch_lightning as pl
 import pickle
-import argparse
+import os
 
 
 class CausalConv1d(torch.nn.Conv1d):
@@ -109,25 +109,17 @@ def pre_emphasis_filter(x, coeff=0.95):
 class PedalNet(pl.LightningModule):
     def __init__(self, hparams):
         super(PedalNet, self).__init__()
-        try:
-            self.wavenet = WaveNet(
-                num_channels=hparams.num_channels,
-                dilation_depth=hparams.dilation_depth,
-                num_repeat=hparams.num_repeat,
-                kernel_size=hparams.kernel_size,
-            )
-        except:
-            self.wavenet = WaveNet(
-                num_channels=hparams["num_channels"],
-                dilation_depth=hparams["dilation_depth"],
-                num_repeat=hparams["num_repeat"],
-                kernel_size=hparams["kernel_size"],
-            )
+        self.wavenet = WaveNet(
+            num_channels=hparams["num_channels"],
+            dilation_depth=hparams["dilation_depth"],
+            num_repeat=hparams["num_repeat"],
+            kernel_size=hparams["kernel_size"],
+        )
         self.hparams = hparams
 
     def prepare_data(self):
         ds = lambda x, y: TensorDataset(torch.from_numpy(x), torch.from_numpy(y))
-        data = pickle.load(open(self.hparams.data, "rb"))
+        data = pickle.load(open(os.path.dirname(self.hparams.model) + "/data.pickle", "rb"))
         self.train_ds = ds(data["x_train"], data["y_train"])
         self.valid_ds = ds(data["x_valid"], data["y_valid"])
 
