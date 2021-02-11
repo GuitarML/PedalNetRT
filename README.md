@@ -106,6 +106,10 @@ python train.py --resume  # to resume training
 python train.py --gpus "0,1"  # for multiple gpus
 python train.py --cpu # for cpu training
 python train.py -h # help (see for other hyperparameters)
+
+
+# The data preparation is included in train.py, but you can run prepare.py separately before training if desired:
+python prepare.py data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav --model=models/your_model_name/your_model_name.ckpt
 ```
 
 **Test**:
