@@ -96,7 +96,7 @@ http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/
       --gpus all \
       ghcr.io/guitarml/pedalnetrt data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
    ```
-6. Get your model from the `/model` directory
+6. Get your model from the `/models` directory
 
 ## Data
 
