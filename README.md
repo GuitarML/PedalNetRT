@@ -39,7 +39,7 @@ For a great explanation of how it works, check out blog post from original pedal
 http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/
 
 
-## Setup
+## Setup (Locally)
 
 > Jupyter Notebooks for Google Colab are available in [notebooks](notebooks)
 
@@ -71,6 +71,32 @@ http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/
    ```sh
    python -m pip install -r requirements-dev.txt
    ```
+
+## Setup (Docker)
+
+1. [Install Docker](https://docs.docker.com/engine/install/)
+2. Install (Nvidia) GPU drivers (from [pytorch-lightning manual](https://github.com/PyTorchLightning/pytorch-lightning/blob/master/dockers/README.md#run-docker-image-with-gpus))
+   ```
+   # Add the package repositories
+   distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+   curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+   curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+   sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+   sudo systemctl restart docker
+   ```
+3. Create `data/` and `models/` directories
+4. Add your input and output .wav files to the `data/` directory
+5. Run the docker image with desired training parameters
+
+   ```
+   docker run --rm -it \
+      -v "$(pwd)"/data:data \
+      -v "$(pwd)"/models:models \
+      --gpus all \
+      ghcr.io/guitarml/pedalnetrt data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
+   ```
+6. Get your model from the `/model` directory
 
 ## Data
 

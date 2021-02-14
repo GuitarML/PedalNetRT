@@ -1,7 +1,8 @@
 name: Docker build and publish
-on: push
-    #branches:
-    #- master
+on: 
+  push:
+    branches:
+    - master
 jobs:
   publish:
     runs-on: ubuntu-latest
