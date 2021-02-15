@@ -1,0 +1,22 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Install the packages
+        run: pip3 install -r requirements.txt
+      - name: Train
+        run: python3 train.py --model=models/github-action-test/github-action-test.ckpt --cpu --max_epochs=0 data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
+      - name: Test
+        run: python3 test.py --model=models/github-action-test/github-action-test.ckpt
+      - name: Plot
+        run: python3 plot.py --model=models/github-action-test/github-action-test.ckpt
+      - name: Predict
+        run: python predict.py --model=models/github-action-test/github-action-test.ckpt data/ts9_test1_in_FP32.wav models/github-action-test/predict.wav
+      - name: Export
+        run: python3 export.py --model=models/github-action-test/github-action-test.ckpt
