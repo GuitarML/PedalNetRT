@@ -168,9 +168,6 @@ Usage (after running "python test.py --model=your_trained_model.ckpt"):
 
 ![plot.py output](figures/example_plot.png)
 
-Public spreadsheet for sharing analysis results (can request write access through google account):<br>
-https://docs.google.com/spreadsheets/d/1sIkhW3cdLkMc8bYrYspE8xzdCrJbyWXg_I0vAuJec88/edit?usp=sharing
-
 ## Training Info
 Differences from the original PedalNet (to make compatible with WaveNet plugin):
 1. Uses a custom Causal Padding mode not available in PyTorch.
