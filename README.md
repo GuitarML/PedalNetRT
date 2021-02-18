@@ -6,21 +6,16 @@ You can train a model using this repository, then convert it to a .json
 model that can be loaded into the VST plugin. Effective for modeling
 distortion style effects or tube amplifiers.
 
-Video walkthrough of model training and usage:
-https://www.youtube.com/watch?v=xkrqF0D8pfQ
+Video walkthrough of model training and usage on [YouTube](https://www.youtube.com/watch?v=xkrqF0D8pfQ)
 
 The following repositories are compatible with the converted .json model,
 for use with real time guitar playing through a DAW plugin or stand alone app:
 
-SmartGuitarPedal<br>
-https://github.com/GuitarML/SmartGuitarPedal<br>
+[SmartGuitarPedal](https://github.com/GuitarML/SmartGuitarPedal)
 
-SmartGuitarAmp<br>
-https://github.com/GuitarML/SmartGuitarAmp<br>
+[SmartGuitarAmp](https://github.com/GuitarML/SmartGuitarAmp)
 
-WaveNetVa<br>
-https://github.com/damskaggep/WaveNetVA
-
+[WaveNetVa](https://github.com/damskaggep/WaveNetVA)
 
 Email your best json models to smartguitarml@gmail.com and they may be included
 in the next plugin release.
@@ -30,13 +25,10 @@ Re-creation of model from [Real-Time Guitar Amplifier Emulation with Deep
 Learning](https://www.mdpi.com/2076-3417/10/3/766/htm)
 
 Notice:
-This project is a modified version of the original Pedalnet, from which<br>
+This project is a modified version of the original [Pedalnet](https://github.com/teddykoker/pedalnet), from which<br>
 the model, data preparation, training, and predition scripts were obtained. 9/25/2020<br>
-Please see original PedalNet, without which this project would not be possible:<br>
-https://github.com/teddykoker/pedalnet
 
-For a great explanation of how it works, check out blog post from original pedalnet:<br>
-http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/
+For a great explanation of how it works, check out this [blog post](http://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/).
 
 
 ## Setup (Locally)
