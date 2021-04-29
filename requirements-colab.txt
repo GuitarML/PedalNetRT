@@ -1,1 +1,1 @@
-pytorch_lightning==1.1.0
+pytorch_lightning==1.2.10
