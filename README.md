@@ -83,8 +83,8 @@ For a great explanation of how it works, check out this [blog post](http://teddy
 
    ```
    docker run --rm -it \
-      -v "$(pwd)"/data:data \
-      -v "$(pwd)"/models:models \
+      -v "$(pwd)"/data:/data \
+      -v "$(pwd)"/models:/models \
       --gpus all \
       ghcr.io/guitarml/pedalnetrt data/ts9_test1_in_FP32.wav data/ts9_test1_out_FP32.wav
    ```
