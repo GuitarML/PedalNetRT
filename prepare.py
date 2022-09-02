@@ -4,11 +4,21 @@ from scipy.io import wavfile
 import numpy as np
 import os
 
+def normalize(data):
+    data_max = max(data)
+    data_min = min(data)
+    data_norm = max(data_max,abs(data_min))
+    return data / data_norm
 
 def prepare(args):
     in_rate, in_data = wavfile.read(args.in_file)
     out_rate, out_data = wavfile.read(args.out_file)
     assert in_rate == out_rate, "in_file and out_file must have same sample rate"
+
+    #normalize data
+    if args.normalize == True:
+        in_data = normalize(in_data)
+        out_data = normalize(out_data)
 
     sample_size = int(in_rate * args.sample_time)
     length = len(in_data) - len(in_data) % sample_size
@@ -40,5 +50,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--model", type=str, default="models/pedalnet/pedalnet.ckpt")
     parser.add_argument("--sample_time", type=float, default=100e-3)
+    parser.add_argument("--normalize", type=bool, default=True)
     args = parser.parse_args()
     prepare(args)
+
