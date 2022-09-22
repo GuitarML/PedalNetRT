@@ -38,7 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("--sample_time", type=float, default=100e-3)
     parser.add_argument("--normalize", type=bool, default=True)
 
-    parser.add_argument("--num_channels", type=int, default=4)
+    parser.add_argument("--num_channels", type=int, default=6)
     parser.add_argument("--dilation_depth", type=int, default=9)
     parser.add_argument("--num_repeat", type=int, default=2)
     parser.add_argument("--kernel_size", type=int, default=3)
