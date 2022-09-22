@@ -16,6 +16,14 @@ def prepare(args):
     out_rate, out_data = wavfile.read(args.out_file)
     assert in_rate == out_rate, "in_file and out_file must have same sample rate"
 
+    # Trim the length of audio to equal the smaller wav file
+    if len(in_data) > len(out_data):
+      print("Trimming input audio to match output audio")
+      in_data = in_data[0:len(out_data)]
+    if len(out_data) > len(in_data): 
+      print("Trimming output audio to match input audio")
+      out_data = out_data[0:len(in_data)]
+
     # Convert PCM16 to FP32
     if in_data.dtype == "int16":
         in_data = in_data/32767
