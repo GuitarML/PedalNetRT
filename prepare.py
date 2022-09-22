@@ -10,10 +10,19 @@ def normalize(data):
     data_norm = max(data_max,abs(data_min))
     return data / data_norm
 
+
 def prepare(args):
     in_rate, in_data = wavfile.read(args.in_file)
     out_rate, out_data = wavfile.read(args.out_file)
     assert in_rate == out_rate, "in_file and out_file must have same sample rate"
+
+    # Convert PCM16 to FP32
+    if in_data.dtype == "int16":
+        in_data = in_data/32767
+        print("In data converted from PCM16 to FP32")
+    if out_data.dtype == "int16":
+        out_data = out_data/32767
+        print("Out data converted from PCM16 to FP32")
 
     #normalize data
     if args.normalize == True:
@@ -53,4 +62,3 @@ if __name__ == "__main__":
     parser.add_argument("--normalize", type=bool, default=True)
     args = parser.parse_args()
     prepare(args)
-
