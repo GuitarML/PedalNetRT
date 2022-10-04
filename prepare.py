@@ -15,6 +15,30 @@ def prepare(args):
     out_rate, out_data = wavfile.read(args.out_file)
     assert in_rate == out_rate, "in_file and out_file must have same sample rate"
 
+    # Trim the length of audio to equal the smaller wav file
+    if len(in_data) > len(out_data):
+      print("Trimming input audio to match output audio")
+      in_data = in_data[0:len(out_data)]
+    if len(out_data) > len(in_data): 
+      print("Trimming output audio to match input audio")
+      out_data = out_data[0:len(in_data)]
+
+    #If stereo data, use channel 0
+    if len(in_data.shape) > 1:
+        print("[WARNING] Stereo data detected for in_data, only using first channel (left channel)")
+        in_data = in_data[:,0]
+    if len(out_data.shape) > 1:
+        print("[WARNING] Stereo data detected for out_data, only using first channel (left channel)")
+        out_data = out_data[:,0]    
+        
+    # Convert PCM16 to FP32
+    if in_data.dtype == "int16":
+        in_data = in_data/32767
+        print("In data converted from PCM16 to FP32")
+    if out_data.dtype == "int16":
+        out_data = out_data/32767
+        print("Out data converted from PCM16 to FP32")
+    
     #normalize data
     if args.normalize == True:
         in_data = normalize(in_data)
