@@ -24,10 +24,13 @@ def prepare(args):
       print("Trimming output audio to match input audio")
       out_data = out_data[0:len(in_data)]
 
-    # If stereo data, use channel 0
+    #If stereo data, use channel 0
+    if len(in_data.shape) > 1:
+        print("[WARNING] Stereo data detected for in_data, only using first channel (left channel)")
+        in_data = in_data[:,0]
     if len(out_data.shape) > 1:
-      print("[WARNING] Stereo data detected, only using first channel (left channel)")
-      out_data = out_data[:,0]        
+        print("[WARNING] Stereo data detected for out_data, only using first channel (left channel)")
+        out_data = out_data[:,0]      
         
     # Convert PCM16 to FP32
     if in_data.dtype == "int16":
