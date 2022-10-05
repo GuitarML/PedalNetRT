@@ -20,14 +20,13 @@ def main(args):
     prepare(args)
     model = PedalNet(vars(args))
     trainer = pl.Trainer(
-        resume_from_checkpoint=args.model if args.resume else None,
         gpus=None if args.cpu or args.tpu_cores else args.gpus,
         tpu_cores=args.tpu_cores,
         log_every_n_steps=100,
         max_epochs=args.max_epochs,
     )
 
-    trainer.fit(model)
+    trainer.fit(model, ckpt_path=args.model if args.resume else None)
     trainer.save_checkpoint(args.model)
 
 
